@@ -14,7 +14,7 @@ const tasks: Task[] = [
   {
     id: "2",
     title: "Task 2",
-    state: "COMPLETED"
+    state: "ACTIVE"
   },
   {
     id: "3",

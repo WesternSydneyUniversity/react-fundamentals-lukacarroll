@@ -4,15 +4,18 @@ import React from "react"
 import styles from "./task-item.module.css";
 
 export function TaskItem({ task }: { task: Task }) {
-  const [checked, setChecked] = React.useState(false);
+  const [taskObj, setTaskObj] = React.useState(task);
 
   const handleClick = () => {
-    setChecked(!checked);
+    task.state = task.state === "ACTIVE" ? "COMPLETED" : "ACTIVE";
+    setTaskObj({
+      ...task
+    })
   };
 
   const taskTitleStyle = {
     flex: 1,
-    textDecoration: checked ? "line-through" : "none",
+    textDecoration: task.state === "COMPLETED" ? "line-through" : "none",
   };
 
   return (

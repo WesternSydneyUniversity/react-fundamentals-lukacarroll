@@ -1,8 +1,20 @@
 import type { Task } from "./task-list";
+import React from "react"
 
 import styles from "./task-item.module.css";
 
 export function TaskItem({ task }: { task: Task }) {
+  const [checked, setChecked] = React.useState(false);
+
+  const handleClick = () => {
+    setChecked(!checked);
+  };
+
+  const taskTitleStyle = {
+    flex: 1,
+    textDecoration: checked ? "line-through" : "none",
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.checkbox}>
@@ -11,11 +23,12 @@ export function TaskItem({ task }: { task: Task }) {
             type="checkbox"
             id={`task-${task.id}`}
             data-testid={`task-${task.id}`}
+            onClick={handleClick}
           />
           <label htmlFor={`task-${task.id}`}></label>
         </div>
       </div>
-      <span className={styles.title}>{task.title}</span>
+      <span style={taskTitleStyle}>{task.title}</span>
       <div className={styles.actions}>
         <button
           data-testid={`delete-${task.id}`}

@@ -33,6 +33,7 @@ export function TaskItem( props : { task: Task, taskObjects: Task[], setTaskObje
             type="checkbox"
             id={`task-${props.task.id}`}
             data-testid={`task-${props.task.id}`}
+            checked={props.task.state === "COMPLETED"}
             onClick={handleClick}
           />
           <label htmlFor={`task-${props.task.id}`}></label>

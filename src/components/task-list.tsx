@@ -3,6 +3,7 @@
 import React from "react";
 import { TaskItem } from "./task-item";
 import styles from "./task-list.module.css";
+import { number } from "zod";
 
 export type Task = {
   id: string;
@@ -17,10 +18,11 @@ export function TaskList({ tasks }: { tasks: Task[] }) {
   const [taskObjects, setTaskObjects] = React.useState(tasks)
   const [inputContent, setInputContent] = React.useState("")
   
-  const numberActive = () => {
-    return taskObjects.filter(
+  const tasksActive = () => {
+    const numberActive = taskObjects.filter(
       (task) => task.state === "ACTIVE"
     ).length
+    return numberActive === 1 ? "1 task" : `${numberActive} tasks`
   }
 
   const handleAdd = () => {
@@ -38,7 +40,7 @@ export function TaskList({ tasks }: { tasks: Task[] }) {
     <>
       <div>
         <section className={styles.counter}>
-          <div className={styles.taskLabel}>{numberActive()} tasks</div>
+          <div className={styles.taskLabel}>{tasksActive()}</div>
         </section>
         <section className={styles.section}>
           {taskObjects.map((task) => (

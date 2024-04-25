@@ -1,21 +1,28 @@
-import type { Task } from "./task-list";
+import type { Task, setState } from "./task-list";
 import React from "react"
 
 import styles from "./task-item.module.css";
 
-export function TaskItem({ task }: { task: Task }) {
-  const [taskObj, setTaskObj] = React.useState(task);
+
+
+export function TaskItem( props : { task: Task, taskObjects: Task[], setTaskObjects: setState} ) {
 
   const handleClick = () => {
-    task.state = task.state === "ACTIVE" ? "COMPLETED" : "ACTIVE";
-    setTaskObj({
-      ...task
-    })
+    props.task.state = props.task.state === "ACTIVE" ? "COMPLETED" : "ACTIVE";
+    props.setTaskObjects([
+      ...props.taskObjects
+    ])
   };
+
+  const handleDelete = () => {
+    props.setTaskObjects(
+      props.taskObjects.filter((task) => task.id !== props.task.id)
+    )
+  }
 
   const taskTitleStyle = {
     flex: 1,
-    textDecoration: task.state === "COMPLETED" ? "line-through" : "none",
+    textDecoration: props.task.state === "COMPLETED" ? "line-through" : "none",
   };
 
   return (
@@ -24,18 +31,19 @@ export function TaskItem({ task }: { task: Task }) {
         <div className={styles.round}>
           <input
             type="checkbox"
-            id={`task-${task.id}`}
-            data-testid={`task-${task.id}`}
+            id={`task-${props.task.id}`}
+            data-testid={`task-${props.task.id}`}
             onClick={handleClick}
           />
-          <label htmlFor={`task-${task.id}`}></label>
+          <label htmlFor={`task-${props.task.id}`}></label>
         </div>
       </div>
-      <span style={taskTitleStyle}>{task.title}</span>
+      <span style={taskTitleStyle}>{props.task.title}</span>
       <div className={styles.actions}>
         <button
-          data-testid={`delete-${task.id}`}
+          data-testid={`delete-${props.task.id}`}
           className={styles.deleteButton}
+          onClick={handleDelete}
         >
           Delete
         </button>
